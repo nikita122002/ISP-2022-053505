@@ -25,7 +25,7 @@ class Parser:
         elif inspect.ismethod(obj) or inspect.isfunction(obj):
             return self.create_func(obj)
         else:
-            if type(obj).__name__ in consts.simple_type:
+            if type(obj).__name__ in Consts.simple_type:
                 return obj
             elif type(obj).__name__ == 'dict':
                 temp = dict()
@@ -123,7 +123,7 @@ class Parser:
                     temp.update([(key, self.loader(obj[key], parent_class))])
                 return temp
         else:
-            if type(obj).__name__ in consts.simple_type:
+            if type(obj).__name__ in Consts.simple_type:
                 return obj
             elif type(obj).__name__ == 'list':
                 temp = []
