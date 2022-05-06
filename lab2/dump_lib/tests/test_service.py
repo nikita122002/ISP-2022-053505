@@ -91,3 +91,16 @@ def test_service_functions_file():
 
 def test_service_functions_string():
     assert loads(dumps(rec_and_func, 'yaml'), 'yaml')(3, 3) == rec_and_func(3, 3)
+
+def abc():
+    import math
+    c = 42
+
+
+    def f(x):
+        a = 123
+        return math.sin(x * a * c)
+    Json().dump(abc)
+
+
+pass

@@ -1,5 +1,5 @@
 from dump_library.parsers.parser import Parser
-from dump_library.parsers.Json.json import json
+from dump_library.parsers.json.json import Json
 from dump_library.parsers.yaml.yaml import Yaml
 from dump_library.parsers.toml.toml import Toml
 from dump_library.dump_service import load, loads, dump, dumps
@@ -59,13 +59,14 @@ k = dub.dump(ss).load()
 pass
 
 
+def abc():
+    c = 42
 
-c = 42
 
-
-def f(x):
-    a = 123
-    return math.sin(x * a * c)
+    def f(x):
+        a = 123
+        return math.sin(x * a * c)
+    Json().dump(abc)
 
 
 pass
