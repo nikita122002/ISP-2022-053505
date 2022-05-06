@@ -1,0 +1,78 @@
+Parser_Data:
+  Code:
+    co_argcount: 2
+    co_cellvars: !!python/tuple []
+    co_code: !!binary |
+      dAB8AHQBfAGDAYMCUwA=
+    co_consts: &id001 !!python/tuple
+    - null
+    co_filename: D:\4 sem\dump_lib\tests\test_service.py
+    co_firstlineno: 58
+    co_flags: 67
+    co_freevars: !!python/tuple []
+    co_kwonlyargcount: 0
+    co_lnotab: !!binary |
+      AAE=
+    co_name: rec_and_func
+    co_names: !!python/tuple
+    - rec
+    - function
+    co_nlocals: 2
+    co_posonlyargcount: 0
+    co_stacksize: 4
+    co_varnames: !!python/tuple
+    - steps
+    - a
+  Global:
+    function:
+      Code:
+        co_argcount: 1
+        co_cellvars: !!python/tuple []
+        co_code: !!binary |
+          fAB8ABMAUwA=
+        co_consts: *id001
+        co_filename: D:\4 sem\dump_lib\tests\test_service.py
+        co_firstlineno: 48
+        co_flags: 67
+        co_freevars: !!python/tuple []
+        co_kwonlyargcount: 0
+        co_lnotab: !!binary |
+          AAE=
+        co_name: function
+        co_names: !!python/tuple []
+        co_nlocals: 1
+        co_posonlyargcount: 0
+        co_stacksize: 2
+        co_varnames: !!python/tuple
+        - a
+      Global: {}
+      Type: Func
+    rec:
+      Code:
+        co_argcount: 2
+        co_cellvars: !!python/tuple []
+        co_code: !!binary |
+          fABkAWsBcgZkAVMAdAB8AGQCGAB8AYMCfAEXAFMA
+        co_consts: !!python/tuple
+        - null
+        - 0
+        - 1
+        co_filename: D:\4 sem\dump_lib\tests\test_service.py
+        co_firstlineno: 52
+        co_flags: 67
+        co_freevars: !!python/tuple []
+        co_kwonlyargcount: 0
+        co_lnotab: !!binary |
+          AAEIAQQB
+        co_name: rec
+        co_names: !!python/tuple
+        - rec
+        co_nlocals: 2
+        co_posonlyargcount: 0
+        co_stacksize: 3
+        co_varnames: !!python/tuple
+        - steps
+        - add
+      Global: {}
+      Type: Func
+  Type: Func
