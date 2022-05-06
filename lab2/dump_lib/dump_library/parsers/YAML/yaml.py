@@ -1,7 +1,7 @@
 import yaml
 
 
-class YAML:
+class Yaml:
     @staticmethod
     def dump_complex(o):
         ans = ""

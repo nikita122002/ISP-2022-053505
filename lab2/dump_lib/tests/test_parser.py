@@ -1,4 +1,4 @@
-from dump_library.parsers.Parser import parser
+from dump_library.parsers.parser import Parser
 from dump_library.dump_settings import *
 
 test_dict = {
@@ -61,7 +61,7 @@ def rec_and_func(steps, a: int):
     return rec(steps, function(a))
 
 
-par = parser()
+par = Parser()
 
 
 def test_parser_simple():

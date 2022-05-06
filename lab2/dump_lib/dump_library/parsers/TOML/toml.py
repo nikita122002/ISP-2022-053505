@@ -2,7 +2,7 @@ import pytomlpp as toml
 from dump_library.dump_settings import *
 
 
-class TOML:
+class Toml:
 
     def serialization(self, obj, parser_name: str):
         self.del_null(obj)

@@ -1,6 +1,6 @@
-from dump_library.parsers.Json.json import json
-from dump_library.parsers.YAML.yaml import YAML
-from dump_library.parsers.TOML.toml import TOML
+from dump_library.parsers.json.json import Json
+from dump_library.parsers.yaml.yaml import Yaml
+from dump_library.parsers.toml.toml import Toml
 
 
 test_dict = {
@@ -11,7 +11,7 @@ test_dict = {
     'v_dict': {'1': 1, '2': 2, '3': 3, '4': 4},
     'v_list': [1, [1, 'fsdsd', True], 3, 4]
 }
-parsers = [json(), YAML(), TOML()]
+parsers = [Json(), Yaml(), Toml()]
 
 
 def test_json():

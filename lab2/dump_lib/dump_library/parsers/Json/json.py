@@ -1,11 +1,11 @@
 import inspect
-from dump_library.parsers.Consts import consts
+from dump_library.parsers.consts import Consts
 from dump_library.dump_settings import *
 
 
-class json(consts):
+class Json(Consts):
 
-    def __serialization(self, obj: object, name: str, need_tabs: bool):
+    def serializationn(self, obj: object, name: str, need_tabs: bool):
         obj_type = type(obj)
         if obj_type.__name__ == 'NoneType':
             return name + PARSER_DATA_NULL
@@ -28,8 +28,8 @@ class json(consts):
                 for key, value in obj.items():
                     if key == '__doc__':
                         continue
-                    res_dict = res_dict + self.__serialization(key, "", False) + ":" + self.__serialization(value, "",
-                                                                                                            False) + ','
+                    res_dict = res_dict + self.serializationn(key, "", False) + ":" + self.serializationn(value, "",
+                                                                                                          False) + ','
                 if (res_dict[-1] != '{'):
                     res_dict = res_dict[:-1]
                 res_dict = res_dict + '}'
@@ -38,7 +38,7 @@ class json(consts):
             elif obj_type.__name__ == "tuple":
                 res_tuple = name + "("
                 for index in range(len(obj)):
-                    res_tuple = res_tuple + self.__serialization(obj[index], "", False) + ','
+                    res_tuple = res_tuple + self.serializationn(obj[index], "", False) + ','
                 if (res_tuple[-1] != '('):
                     res_tuple = res_tuple[:-1]
                 res_tuple = res_tuple + ')'
@@ -47,7 +47,7 @@ class json(consts):
             else:
                 res_list = name + "["
                 for value in range(len(obj)):
-                    res_list = res_list + self.__serialization(obj[value], "", False) + ','
+                    res_list = res_list + self.serializationn(obj[value], "", False) + ','
                 if (res_list[-1] != '['):
                     res_list = res_list[:-1]
                 res_list = res_list + ']'
@@ -60,7 +60,7 @@ class json(consts):
             for member in members:
                 if member[0] == '__doc__':
                     continue
-                res = res + str(self.__serialization(getattr(obj, member[0]), '"' + member[0] + '":', True))
+                res = res + str(self.serializationn(getattr(obj, member[0]), '"' + member[0] + '":', True))
                 while res[-1] == ',':
                     res = res[:-1]
                 if res[-1] != '{':
@@ -71,26 +71,26 @@ class json(consts):
         return ""
 
     def serialization(self, obj: object, class_name):
-        return "{" + str(self.__serialization(obj, '"' + class_name + '":', True)) + "}"
+        return "{" + str(self.serializationn(obj, '"' + class_name + '":', True)) + "}"
 
-    def __check_object(self, string):
+    def check_object(self, string):
         flag = False
         res = None
         if string[0] == '{':
             flag = True
             string = string[1:]
-            string, res = self.__deserialization_dict(string)
+            string, res = self.deserialization_dict(string)
         elif string[0] == '[':
             flag = True
             string = string[1:]
-            string, res = self.__deserialization_list(string)
+            string, res = self.deserialization_list(string)
         elif string[0] == '(':
             flag = True
             string = string[1:]
-            string, res = self.__deserialization_tuple(string)
+            string, res = self.deserialization_tuple(string)
         return flag, string, res
 
-    def __get_simple_variable(self, string):
+    def get_simple_variable(self, string):
 
         arr_r = [string.find(','), string.find(')'), string.find(']'), string.find('}'), string.find(':')]
         arr_r.sort()
@@ -135,12 +135,12 @@ class json(consts):
                 is_converted = is_converted
         return string, res
 
-    def __deserialization_list(self, string: str):
+    def deserialization_list(self, string: str):
         temp = list()
         while string[0] != ']' and len(string) > 0:
-            flag, string, res = self.__check_object(string)
+            flag, string, res = self.check_object(string)
             if not flag:
-                string, res = self.__get_simple_variable(string)
+                string, res = self.get_simple_variable(string)
             if string[0] == ',':
                 string = string[1:]
             temp.append(res)
@@ -150,12 +150,12 @@ class json(consts):
             string = string[1:]
         return string, temp
 
-    def __deserialization_tuple(self, string: str):
+    def deserialization_tuple(self, string: str):
         temp = tuple()
         while string[0] != ')' and len(string) > 0:
-            flag, string, res = self.__check_object(string)
+            flag, string, res = self.check_object(string)
             if not flag:
-                string, res = self.__get_simple_variable(string)
+                string, res = self.get_simple_variable(string)
                 if string[0] == ',':
                     string = string[1:]
             temp += tuple([res])
@@ -165,14 +165,14 @@ class json(consts):
             string = string[1:]
         return string, temp
 
-    def __deserialization_dict(self, string: str):
+    def deserialization_dict(self, string: str):
         temp = dict()
         while string[0] != '}' and len(string) > 0:
-            string, name = self.__get_simple_variable(string)
+            string, name = self.get_simple_variable(string)
             string = string[1:]
-            flag, string, res = self.__check_object(string)
+            flag, string, res = self.check_object(string)
             if not flag:
-                string, res = self.__get_simple_variable(string)
+                string, res = self.get_simple_variable(string)
                 if string[0] == ',':
                     string = string[1:]
             temp.update([(name, res)])
@@ -185,6 +185,6 @@ class json(consts):
 
     def deserialization(self, string: str):
         string = string[1:]
-        string, res = self.__deserialization_dict(string)
+        string, res = self.deserialization_dict(string)
 
         return res

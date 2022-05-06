@@ -1,19 +1,19 @@
-from dump_library.parsers.Parser import parser
-from dump_library.parsers.Json.json import json
-from dump_library.parsers.YAML.yaml import YAML
-from dump_library.parsers.TOML.toml import TOML
+from dump_library.parsers.parser import Parser
+from dump_library.parsers.json.json import Json
+from dump_library.parsers.yaml.yaml import Yaml
+from dump_library.parsers.toml.toml import Toml
 from dump_library.dump_settings import *
 
-main_parser = parser()
+main_parser = Parser()
 
 
 def get_format(format_parser: str):
     if format_parser == 'json':
-        return json()
+        return Json()
     elif format_parser == 'yaml':
-        return YAML()
+        return Yaml()
     elif format_parser == 'toml':
-        return TOML()
+        return Toml()
     else:
         raise ValueError('Unknown parser. You may have entered the wrong name for the parser')
 

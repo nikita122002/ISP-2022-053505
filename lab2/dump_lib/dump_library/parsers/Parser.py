@@ -1,10 +1,10 @@
 import inspect
-from dump_library.parsers.Consts import consts
+from dump_library.parsers.consts import Consts
 from types import new_class, MethodType, CodeType, FunctionType
 from dump_library.dump_settings import *
 
 
-class parser:
+class Parser:
     data = dict()
     args_code_type = ['co_argcount', 'co_posonlyargcount', 'co_kwonlyargcount', 'co_nlocals', 'co_stacksize',
                       'co_flags', 'co_code', 'co_consts', 'co_names', 'co_varnames', 'co_filename', 'co_name',
@@ -23,7 +23,7 @@ class parser:
                 temp['Args'].update([(member[0], self.__fill_data(member[1]))])
             return temp
         elif inspect.ismethod(obj) or inspect.isfunction(obj):
-            return self.__create_func(obj)
+            return self.create_func(obj)
         else:
             if type(obj).__name__ in consts.simple_type:
                 return obj
@@ -54,7 +54,7 @@ class parser:
                 return temp
         return temp
 
-    def __create_func(self, obj):
+    def create_func(self, obj):
         if inspect.ismethod(obj):
             type_obj = "Method"
         else:
@@ -83,20 +83,20 @@ class parser:
             if item == obj.__name__:
                 continue
             elif item in obj.__globals__:
-                temp['Global'].update([(item, self.__create_func(obj.__globals__[item]))])
+                temp['Global'].update([(item, self.create_func(obj.__globals__[item]))])
         return temp
 
     def dump(self, obj):
         self.data = self.__fill_data(obj)
         return self
 
-    def __loader(self, obj, parent_class):
+    def loader(self, obj, parent_class):
         if type(obj).__name__ == 'dict':
             if 'Type' in obj.keys() and len(obj.keys()) == 3:
                 if obj['Type'] == 'Class':
                     temp = new_class(obj['Name'], (), ())
                     for key in obj["Args"]:
-                        setattr(temp, key, self.__loader(obj['Args'][key], temp))
+                        setattr(temp, key, self.loader(obj['Args'][key], temp))
                     return temp
                 elif obj['Type'] in ['Method', "Func"]:
                     code = []
@@ -104,7 +104,7 @@ class parser:
                         code.append(obj["Code"][item])
                     glob = {"__builtins__": __builtins__}
                     for key in obj['Global']:
-                        glob[key] = self.__loader(obj['Global'][key], None)
+                        glob[key] = self.loader(obj['Global'][key], None)
                     func = FunctionType(CodeType(*code), glob)
                     if func.__name__ in obj["Code"]['co_names']:
                         func.__globals__[func.__name__] = func
@@ -112,15 +112,15 @@ class parser:
                         return func
                     return MethodType(func, parent_class)
                 else:
-                    temp = self.__loader(obj['Class'], parent_class)
+                    temp = self.loader(obj['Class'], parent_class)
                     for key in obj['Args']:
-                        setattr(temp, key, self.__loader(obj['Args'][key], temp))
+                        setattr(temp, key, self.loader(obj['Args'][key], temp))
 
                     return temp
             else:
                 temp = dict()
                 for key in obj:
-                    temp.update([(key, self.__loader(obj[key], parent_class))])
+                    temp.update([(key, self.loader(obj[key], parent_class))])
                 return temp
         else:
             if type(obj).__name__ in consts.simple_type:
@@ -128,13 +128,13 @@ class parser:
             elif type(obj).__name__ == 'list':
                 temp = []
                 for index in range(len(obj)):
-                    temp.append(self.__loader(obj[index], parent_class))
+                    temp.append(self.loader(obj[index], parent_class))
             else:
                 temp = tuple()
                 for value in obj:
-                    temp += (self.__loader(value, parent_class),)
+                    temp += (self.loader(value, parent_class),)
             return temp
 
     def load(self):
 
-        return self.__loader(self.data[PARSER_DATA_NAME], None)
+        return self.loader(self.data[PARSER_DATA_NAME], None)

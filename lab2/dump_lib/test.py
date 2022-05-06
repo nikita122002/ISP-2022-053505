@@ -1,7 +1,7 @@
-from dump_library.parsers.Parser import parser
+from dump_library.parsers.parser import Parser
 from dump_library.parsers.Json.json import json
-from dump_library.parsers.YAML.yaml import YAML
-from dump_library.parsers.TOML.toml import TOML
+from dump_library.parsers.yaml.yaml import Yaml
+from dump_library.parsers.toml.toml import Toml
 from dump_library.dump_service import load, loads, dump, dumps
 import inspect
 import math
@@ -47,7 +47,7 @@ test_dict = {
     'v_list': [1, [1, 'fsdsd', True], 3, 4]
 }
 
-b = parser()
+b = Parser()
 par = json()
 t2 = ChildClass()
 dub = b.dump(t2)

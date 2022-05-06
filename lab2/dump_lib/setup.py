@@ -5,9 +5,9 @@ setup(
     packages=[
         'dump_library',
         'dump_library/parsers',
-        'dump_library/parsers/Json',
-        'dump_library/parsers/TOML',
-        'dump_library/parsers/YAML',
+        'dump_library/parsers/json',
+        'dump_library/parsers/toml',
+        'dump_library/parsers/yaml',
     ],
     version='1.0.0',
     author='nikita122002',
